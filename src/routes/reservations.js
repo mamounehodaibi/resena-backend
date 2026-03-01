@@ -1,18 +1,19 @@
 ﻿const router = require('express').Router();
 const { pool } = require('../db');
 const { requireAuth } = require('../middleware/auth');
-const { notifyNewReservation } = require('../mailer');
+const { notifyNewReservation, confirmReservationToCustomer } = require('../mailer');
 
 router.post('/', async (req, res) => {
-  const { nombre, telefono, fecha, hora, personas, ocasion = '', notas = '' } = req.body;
+  const { nombre, telefono, email, fecha, hora, personas, ocasion = '', notas = '' } = req.body;
   if (!nombre || !telefono || !fecha || !hora || !personas)
     return res.status(400).json({ error: 'Faltan campos obligatorios' });
   const result = await pool.query(
-    'INSERT INTO reservations (nombre, telefono, fecha, hora, personas, ocasion, notas) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *',
-    [nombre, telefono, fecha, hora, personas, ocasion, notas]
+    'INSERT INTO reservations (nombre, telefono, email, fecha, hora, personas, ocasion, notas) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *',
+    [nombre, telefono, email||'', fecha, hora, personas, ocasion, notas]
   );
   const reservation = result.rows[0];
   notifyNewReservation(reservation).catch(err => console.error('Email error:', err));
+  confirmReservationToCustomer(reservation).catch(err => console.error('Customer email error:', err));
   res.status(201).json(reservation);
 });
 

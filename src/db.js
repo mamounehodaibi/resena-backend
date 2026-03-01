@@ -1,4 +1,4 @@
-﻿const { Pool } = require('pg');
+const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
 
 const pool = new Pool({
@@ -23,6 +23,7 @@ async function init() {
       personas   TEXT NOT NULL,
       ocasion    TEXT DEFAULT '',
       notas      TEXT DEFAULT '',
+      email      TEXT DEFAULT '',
       estado     TEXT DEFAULT 'pendiente' CHECK(estado IN ('pendiente','confirmada','cancelada')),
       created_at TIMESTAMP DEFAULT NOW()
     );
