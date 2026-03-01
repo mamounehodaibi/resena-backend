@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin — La Reseña</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div class="admin-login-wrap" id="loginScreen">
+  <div class="alw-box">
+    <span class="alw-icon">🔐</span>
+    <div class="alw-title">Panel de Administración</div>
+    <p class="alw-sub">La Reseña · Gestión de Reservas</p>
+    <div class="fg">
+      <label>Contraseña</label>
+      <input type="password" id="pwInput" placeholder="Introduce la contraseña" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <div style="margin-top:4px">
+      <button class="btn btn-gold" onclick="doLogin()" style="width:100%;justify-content:center">Entrar</button>
+    </div>
+    <p class="alw-err" id="loginErr"></p>
+    <p style="margin-top:24px;font-size:.76rem;font-style:italic;color:var(--dim);text-align:center">Contraseña por defecto: <strong style="color:var(--gold)">resena2025</strong><br>Cámbiala en el código antes de publicar</p>
+  </div>
+</div>
+
+<!-- ADMIN DASHBOARD -->
+<div id="adminDash" style="display:none">
+
+  <div class="admin-header">
+    <div class="ah-left">
+      <span class="ah-logo">La Reseña</span>
+      <span class="ah-badge">Panel Admin</span>
+    </div>
+    <div style="display:flex;gap:12px;align-items:center">
+      <a href="index.html" class="btn btn-outline btn-sm">← Ver web</a>
+      <button class="btn btn-sm" onclick="doLogout()" style="background:rgba(201,76,76,.15);border:1px solid rgba(201,76,76,.3);color:var(--danger);font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;cursor:pointer">Salir</button>
+    </div>
+  </div>
+
+  <div class="admin-body">
+
+    <!-- STATS -->
+    <div class="dash-stats">
+      <div class="stat-card">
+        <div class="stat-label">Total Reservas</div>
+        <div class="stat-value" id="statTotal">0</div>
+        <div class="stat-sub">Acumuladas</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Pendientes</div>
+        <div class="stat-value" id="statPending" style="color:var(--gold)">0</div>
+        <div class="stat-sub">Sin confirmar</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Confirmadas</div>
+        <div class="stat-value" id="statConfirmed" style="color:var(--success)">0</div>
+        <div class="stat-sub">Listas</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Hoy</div>
+        <div class="stat-value" id="statToday">0</div>
+        <div class="stat-sub">Reservas para hoy</div>
+      </div>
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="dash-controls">
+      <input type="search" class="search-input" id="searchInput" placeholder="Buscar por nombre o teléfono..." oninput="renderTable()">
+      <select class="filter-select" id="filterEstado" onchange="renderTable()">
+        <option value="">Todos los estados</option>
+        <option value="pendiente">Pendientes</option>
+        <option value="confirmada">Confirmadas</option>
+        <option value="cancelada">Canceladas</option>
+      </select>
+      <select class="filter-select" id="filterDate" onchange="renderTable()">
+        <option value="">Todas las fechas</option>
+        <option value="hoy">Hoy</option>
+        <option value="semana">Esta semana</option>
+        <option value="mes">Este mes</option>
+      </select>
+      <button class="btn btn-outline btn-sm" onclick="exportCSV()">↓ Exportar CSV</button>
+      <button class="btn btn-sm" onclick="clearAll()" style="background:rgba(201,76,76,.1);border:1px solid rgba(201,76,76,.25);color:var(--danger);font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.15em;cursor:pointer">Borrar todo</button>
+    </div>
+
+    <!-- TABLE -->
+    <div class="res-table-wrap">
+      <table class="res-table">
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>Teléfono</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Personas</th>
+            <th>Ocasión</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+      <div class="empty-state" id="emptyState" style="display:none">
+        <span class="es-icon">📋</span>
+        <p>No hay reservas que mostrar</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal">
+    <div class="modal-title">Detalle de Reserva</div>
+    <dl class="modal-body" id="modalBody"></dl>
+    <div class="modal-actions" id="modalActions"></div>
+  </div>
+</div>
+
+<script>
+const API = '/api';
+let authToken = sessionStorage.getItem('admin_token') || null;
+
+/* ── AUTH ── */
+async function doLogin(){
+  const username = 'admin';
+  const password = document.getElementById('pwInput').value;
+  try {
+    const res = await fetch(`${API}/auth/login`, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({username, password})
+    });
+    const data = await res.json();
+    if(!res.ok) throw new Error(data.error);
+    authToken = data.token;
+    sessionStorage.setItem('admin_token', authToken);
+    showDash();
+  } catch(e) {
+    document.getElementById('loginErr').textContent = e.message || 'Error al iniciar sesión';
+  }
+}
+
+function doLogout(){
+  sessionStorage.removeItem('admin_token');
+  authToken = null;
+  location.reload();
+}
+
+function showDash(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('adminDash').style.display='block';
+  loadDashboard();
+}
+
+window.addEventListener('DOMContentLoaded', async () => {
+  document.getElementById('pwInput').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+  if(authToken){
+    // verify token still valid
+    try {
+      const r = await fetch(`${API}/auth/me`, {headers:{Authorization:`Bearer ${authToken}`}});
+      if(r.ok){ showDash(); return; }
+    } catch{}
+    sessionStorage.removeItem('admin_token');
+  }
+});
+
+/* ── API helpers ── */
+async function apiFetch(path, opts={}){
+  const res = await fetch(`${API}${path}`, {
+    ...opts,
+    headers:{ 'Content-Type':'application/json', Authorization:`Bearer ${authToken}`, ...(opts.headers||{}) }
+  });
+  if(res.status===401){ doLogout(); return null; }
+  return res.json();
+}
+
+/* ── Dashboard ── */
+async function loadDashboard(){ await Promise.all([renderStats(), renderTable()]); }
+
+async function renderStats(){
+  const s = await apiFetch('/reservations/stats');
+  if(!s) return;
+  document.getElementById('statTotal').textContent     = s.total;
+  document.getElementById('statPending').textContent   = s.pendiente;
+  document.getElementById('statConfirmed').textContent = s.confirmada;
+  document.getElementById('statToday').textContent     = s.hoy;
+}
+
+async function renderTable(){
+  const search = document.getElementById('searchInput').value;
+  const estado = document.getElementById('filterEstado').value;
+  const dateF  = document.getElementById('filterDate').value;
+
+  let qs = new URLSearchParams();
+  if(search) qs.set('search', search);
+  if(estado) qs.set('estado', estado);
+  // date filter: hoy translates to today's date
+  if(dateF==='hoy') qs.set('fecha', new Date().toISOString().split('T')[0]);
+
+  let rows = await apiFetch(`/reservations?${qs}`);
+  if(!rows) return;
+
+  // client-side week/month filter
+  if(dateF==='semana'){
+    const now=new Date(), start=new Date(now); start.setDate(now.getDate()-now.getDay()); start.setHours(0,0,0,0);
+    const end=new Date(start); end.setDate(start.getDate()+6);
+    rows=rows.filter(r=>{ const d=new Date(r.fecha); return d>=start&&d<=end; });
+  }
+  if(dateF==='mes'){
+    const now=new Date();
+    rows=rows.filter(r=>{ const d=new Date(r.fecha); return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear(); });
+  }
+
+  const tbody = document.getElementById('tableBody');
+  const empty = document.getElementById('emptyState');
+  if(!rows.length){ tbody.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+
+  tbody.innerHTML = rows.map(r=>`
+    <tr>
+      <td class="td-name">${esc(r.nombre)}</td>
+      <td class="td-date"><a href="tel:${esc(r.telefono)}" style="color:var(--gold)">${esc(r.telefono)}</a></td>
+      <td class="td-date">${formatDate(r.fecha)}</td>
+      <td>${esc(r.hora)}</td>
+      <td>${esc(r.personas)}</td>
+      <td style="color:var(--muted);font-style:italic">${r.ocasion||'—'}</td>
+      <td><span class="badge badge-${r.estado}">${estadoLabel(r.estado)}</span></td>
+      <td>
+        <div class="td-actions">
+          <button class="btn btn-sm" onclick="openDetail(${r.id})" style="background:var(--gold-dim);border:1px solid var(--border);color:var(--gold);font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.15em;cursor:pointer;padding:7px 14px;border-radius:2px">Ver</button>
+          ${r.estado==='pendiente'?`<button class="btn btn-sm btn-success" onclick="changeStatus(${r.id},'confirmada')" style="font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.13em;cursor:pointer;padding:7px 12px;border-radius:2px">✓ Confirmar</button>`:''}
+          ${r.estado!=='cancelada'?`<button class="btn btn-sm" onclick="changeStatus(${r.id},'cancelada')" style="background:rgba(201,76,76,.1);border:1px solid rgba(201,76,76,.25);color:var(--danger);font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.13em;cursor:pointer;padding:7px 12px;border-radius:2px">✕ Cancelar</button>`:''}
+          <button class="btn btn-sm" onclick="deleteRes(${r.id})" style="background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--dim);font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.13em;cursor:pointer;padding:7px 12px;border-radius:2px">🗑</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+async function changeStatus(id, newEstado){
+  await apiFetch(`/reservations/${id}/estado`, { method:'PATCH', body:JSON.stringify({estado:newEstado}) });
+  await loadDashboard();
+  closeModal();
+}
+
+async function deleteRes(id){
+  if(!confirm('¿Eliminar esta reserva?')) return;
+  await apiFetch(`/reservations/${id}`, { method:'DELETE' });
+  await loadDashboard();
+  closeModal();
+}
+
+async function openDetail(id){
+  const r = await apiFetch(`/reservations/${id}`);
+  if(!r) return;
+  document.getElementById('modalBody').innerHTML = `
+    <dt>Cliente</dt><dd>${esc(r.nombre)}</dd>
+    <dt>Teléfono</dt><dd><a href="tel:${esc(r.telefono)}" style="color:var(--gold)">${esc(r.telefono)}</a></dd>
+    <dt>Fecha</dt><dd>${formatDate(r.fecha)}</dd>
+    <dt>Hora</dt><dd>${esc(r.hora)}</dd>
+    <dt>Personas</dt><dd>${esc(r.personas)}</dd>
+    <dt>Ocasión</dt><dd>${r.ocasion||'—'}</dd>
+    <dt>Notas</dt><dd>${r.notas||'Sin notas'}</dd>
+    <dt>Estado</dt><dd><span class="badge badge-${r.estado}">${estadoLabel(r.estado)}</span></dd>
+    <dt>Recibida</dt><dd>${new Date(r.created_at).toLocaleString('es-ES')}</dd>
+  `;
+  document.getElementById('modalActions').innerHTML = `
+    ${r.estado==='pendiente'?`<button class="btn btn-success" onclick="changeStatus(${r.id},'confirmada')">✓ Confirmar</button>`:''}
+    ${r.estado!=='cancelada'?`<button class="btn btn-danger" onclick="changeStatus(${r.id},'cancelada')">✕ Cancelar</button>`:''}
+    <button class="btn btn-outline" onclick="closeModal()">Cerrar</button>
+  `;
+  document.getElementById('detailModal').classList.add('open');
+}
+
+function closeModal(){ document.getElementById('detailModal').classList.remove('open'); }
+document.addEventListener('DOMContentLoaded',()=>{
+  const overlay = document.getElementById('detailModal');
+  if(overlay) overlay.addEventListener('click',e=>{ if(e.target===e.currentTarget) closeModal(); });
+});
+
+async function clearAll(){
+  if(!confirm('¿Eliminar TODAS las reservas? Esta acción no se puede deshacer.')) return;
+  const rows = await apiFetch('/reservations');
+  if(!rows) return;
+  await Promise.all(rows.map(r => apiFetch(`/reservations/${r.id}`, {method:'DELETE'})));
+  await loadDashboard();
+}
+
+async function exportCSV(){
+  const rows = await apiFetch('/reservations');
+  if(!rows||!rows.length){ alert('No hay reservas para exportar.'); return; }
+  const headers = ['Nombre','Teléfono','Fecha','Hora','Personas','Ocasión','Notas','Estado','Recibida'];
+  const csvRows = rows.map(r=>[r.nombre,r.telefono,r.fecha,r.hora,r.personas,r.ocasion||'',r.notas||'',estadoLabel(r.estado),new Date(r.created_at).toLocaleString('es-ES')].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(','));
+  const csv = [headers.join(','),...csvRows].join('\n');
+  const blob = new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `reservas-la-resena-${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
+}
+
+/* ── Helpers ── */
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function estadoLabel(e){ return {pendiente:'Pendiente',confirmada:'Confirmada',cancelada:'Cancelada'}[e]||e; }
+function formatDate(d){
+  if(!d) return '—';
+  const [y,m,day]=d.split('-');
+  const months=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  return `${parseInt(day)} ${months[parseInt(m)-1]} ${y}`;
+}
+</script>
+</body>
+</html>
