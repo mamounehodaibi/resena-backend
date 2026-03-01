@@ -1,4 +1,6 @@
 require('dotenv').config();
+const { init } = require('./src/db');
+init().catch(err => { console.error('DB init error:', err); process.exit(1); });
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -32,3 +34,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`✅  La Reseña backend running on http://localhost:${PORT}`);
 });
+
