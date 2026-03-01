@@ -1,4 +1,4 @@
-const router = require('express').Router();
+ï»¿const router = require('express').Router();
 const { pool } = require('../db');
 const { requireAuth } = require('../middleware/auth');
 
@@ -36,14 +36,14 @@ router.put('/categories/:id', requireAuth, async (req, res) => {
 
 router.delete('/categories/:id', requireAuth, async (req, res) => {
   await pool.query('DELETE FROM menu_categories WHERE id=$1', [req.params.id]);
-  res.json({ message: 'Categoría eliminada' });
+  res.json({ message: 'Categoria eliminada' });
 });
 
 router.post('/items', requireAuth, async (req, res) => {
   const { category_id, nombre, descripcion='', nota='', precio=null, precios=null, orden=0 } = req.body;
   if (!category_id || !nombre) return res.status(400).json({ error: 'category_id y nombre requeridos' });
   const result = await pool.query(
-    'INSERT INTO menu_items (category_id, nombre, descripcion, nota, precio, precios_json, orden) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *',
+    'INSERT INTO menu_items (category_id,nombre,descripcion,nota,precio,precios_json,orden) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *',
     [category_id, nombre, descripcion, nota, precio, precios ? JSON.stringify(precios) : null, orden]
   );
   res.status(201).json(result.rows[0]);

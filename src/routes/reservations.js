@@ -1,4 +1,4 @@
-const router = require('express').Router();
+ï»¿const router = require('express').Router();
 const { pool } = require('../db');
 const { requireAuth } = require('../middleware/auth');
 const { notifyNewReservation } = require('../mailer');
@@ -51,7 +51,7 @@ router.get('/:id', requireAuth, async (req, res) => {
 router.patch('/:id/estado', requireAuth, async (req, res) => {
   const { estado } = req.body;
   if (!['pendiente','confirmada','cancelada'].includes(estado))
-    return res.status(400).json({ error: 'Estado inválido' });
+    return res.status(400).json({ error: 'Estado invalido' });
   const result = await pool.query('UPDATE reservations SET estado=$1 WHERE id=$2 RETURNING *', [estado, req.params.id]);
   if (!result.rows[0]) return res.status(404).json({ error: 'Reserva no encontrada' });
   res.json(result.rows[0]);

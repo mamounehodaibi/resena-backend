@@ -1,4 +1,4 @@
-const router  = require('express').Router();
+ï»¿const router  = require('express').Router();
 const bcrypt  = require('bcryptjs');
 const { pool } = require('../db');
 const { requireAuth, signToken } = require('../middleware/auth');
@@ -6,7 +6,7 @@ const { requireAuth, signToken } = require('../middleware/auth');
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
   if (!username || !password)
-    return res.status(400).json({ error: 'Usuario y contraseña requeridos' });
+    return res.status(400).json({ error: 'Usuario y contrasena requeridos' });
   const result = await pool.query('SELECT * FROM admins WHERE username = $1', [username]);
   const admin = result.rows[0];
   if (!admin || !bcrypt.compareSync(password, admin.password))
@@ -24,14 +24,14 @@ router.put('/password', requireAuth, async (req, res) => {
   if (!currentPassword || !newPassword)
     return res.status(400).json({ error: 'Faltan campos' });
   if (newPassword.length < 6)
-    return res.status(400).json({ error: 'La nueva contraseña debe tener al menos 6 caracteres' });
+    return res.status(400).json({ error: 'La nueva contrasena debe tener al menos 6 caracteres' });
   const result = await pool.query('SELECT * FROM admins WHERE id = $1', [req.admin.id]);
   const admin = result.rows[0];
   if (!bcrypt.compareSync(currentPassword, admin.password))
-    return res.status(401).json({ error: 'Contraseña actual incorrecta' });
+    return res.status(401).json({ error: 'Contrasena actual incorrecta' });
   const hash = bcrypt.hashSync(newPassword, 10);
   await pool.query('UPDATE admins SET password = $1 WHERE id = $2', [hash, req.admin.id]);
-  res.json({ message: 'Contraseña actualizada' });
+  res.json({ message: 'Contrasena actualizada' });
 });
 
 module.exports = router;
