@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Carta — La Reseña Bar Restaurante · Córdoba</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <span class="nav-logo-main">La Reseña</span>
+    <span class="nav-logo-sub">de Santo y Seña</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="menu.html" class="active">Carta</a></li>
+    <li><a href="about.html">Nosotros</a></li>
+    <li><a href="contact.html" class="nav-cta">Reservar</a></li>
+  </ul>
+  <button class="nav-burger" id="burger"><span></span><span></span><span></span></button>
+</nav>
+<div class="nav-mobile" id="navMobile">
+  <a href="index.html">Inicio</a><a href="menu.html">Carta</a><a href="about.html">Nosotros</a><a href="contact.html">Reservar</a>
+</div>
+
+<main class="page-wrap">
+  <div class="sec-header" style="background:var(--panel);border-bottom:1px solid var(--border)">
+    <p class="sec-eyebrow">La Reseña</p>
+    <h1 class="sec-title">Nuestra Carta</h1>
+    <div class="sec-rule"></div>
+    <p class="sec-sub">Cocina honesta con productos frescos. Donde Andalucía abraza el Mediterráneo</p>
+  </div>
+
+  <div class="menu-nav">
+    <div class="mni">
+      <a href="#entrantes" class="active">Entrantes</a>
+      <a href="#especialidad">Especialidades</a>
+      <a href="#empezamos">Empezamos</a>
+      <a href="#carnes">Carnes</a>
+      <a href="#pescado">Pescado</a>
+      <a href="#postres">Postres</a>
+    </div>
+  </div>
+
+  <div class="menu-main">
+
+    <!-- ENTRANTES -->
+    <section class="menu-sec" id="entrantes">
+      <div class="ms-hdr"><h2 class="ms-title">Entrantes</h2></div>
+      <div class="menu-items">
+        <div class="mi"><div class="mi-left"><div class="mi-name">Ensalada de Burrata</div><div class="mi-desc">Con tomate ecológico, salsa de mango, albahaca</div></div><div class="mi-price">8,90 €</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Ensalada de Ventresca</div><div class="mi-desc">Tomate ecológico, ventresca, aguacate</div></div><div class="mi-price">13,50 €</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Tosta de Anchoas</div><div class="mi-desc">Con queso de cabra y cebolla caramelizada</div></div><div class="mi-price">6,00 €</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Tosta de Burrata</div><div class="mi-desc">Con salsa de naranja</div></div><div class="mi-price">7,00 €</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Tabla La Reseña</div><div class="mi-desc">Jamón ibérico, queso curado, salmorejo</div></div><div class="mi-price">14,50 €</div></div>
+        <div class="mi full">
+          <div class="mi-name">Ensaladilla de Gamba</div>
+          <div class="size-pills"><div class="sp"><span class="sp-l">Entera</span><span class="sp-p">12,00 €</span></div><div class="sp"><span class="sp-l">Media</span><span class="sp-p">7,50 €</span></div><div class="sp"><span class="sp-l">Tapa</span><span class="sp-p">4,50 €</span></div></div>
+        </div>
+        <div class="mi full">
+          <div class="mi-name">Ensaladilla de Salmón Ahumado</div>
+          <div class="mi-desc">Salmón ahumado, alcaparras, maïs, pepinillo</div>
+          <div class="size-pills"><div class="sp"><span class="sp-l">Entera</span><span class="sp-p">13,50 €</span></div><div class="sp"><span class="sp-l">Media</span><span class="sp-p">8,50 €</span></div><div class="sp"><span class="sp-l">Tapa</span><span class="sp-p">5,50 €</span></div></div>
+        </div>
+        <div class="mi full">
+          <div class="mi-name">Mazamorra</div>
+          <div class="mi-desc">Con almendras y leche de almendras</div>
+          <div class="size-pills"><div class="sp"><span class="sp-l">Entera</span><span class="sp-p">10,50 €</span></div><div class="sp"><span class="sp-l">Media</span><span class="sp-p">8,30 €</span></div><div class="sp"><span class="sp-l">Tapa</span><span class="sp-p">3,80 €</span></div></div>
+        </div>
+        <div class="mi full">
+          <div class="mi-name">Salmorejo</div>
+          <div class="size-pills"><div class="sp"><span class="sp-l">Entera</span><span class="sp-p">9,50 €</span></div><div class="sp"><span class="sp-l">Media</span><span class="sp-p">7,50 €</span></div><div class="sp"><span class="sp-l">Tapa</span><span class="sp-p">3,50 €</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ESPECIALIDAD DE LA CASA -->
+    <section class="menu-sec" id="especialidad">
+      <div class="ms-hdr"><h2 class="ms-title">Especialidad de la Casa</h2></div>
+      <div class="menu-items">
+        <div class="mi"><div class="mi-left"><div class="mi-name">Kufta de Ternera</div><div class="mi-desc">Humus remolacha, humus tradicional, verdura asada, salsa hierba fresca</div></div><div class="mi-price">14,00 €</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Humus de Remolacha / Humus Tradicional</div><div class="mi-desc">Con pan de la casa</div></div><div class="mi-price">6,00 €</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Tajine de Pollo</div><div class="mi-desc">Con patatas fritas, pan de la casa</div></div><div class="mi-price">14,00 €</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Chawarma de Pollo</div><div class="mi-desc">Con humus tradicional, tomate fresco, pepinillo, pan de la casa</div></div><div class="mi-price">13,50 €</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Pastella Moruna</div><div class="mi-desc">Con hojas hojaldre de masa fina, relleno de pollo y almendras</div></div><div class="mi-price">14,00 €</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Couscous de Pollo</div><div class="mi-desc">Con sémola, verdura, cebolla caramelizada</div><div class="mi-note">★ Reserva con un día de antelación — mínimo 2 personas</div></div><div class="mi-price">14,50 €</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Couscous de Ternera</div><div class="mi-desc">Con sémola, verdura, cebolla caramelizada</div><div class="mi-note">★ Reserva con un día de antelación — mínimo 2 personas</div></div><div class="mi-price">16,50 €</div></div>
+      </div>
+    </section>
+
+    <!-- EMPEZAMOS -->
+    <section class="menu-sec" id="empezamos">
+      <div class="ms-hdr"><h2 class="ms-title">Empezamos</h2></div>
+      <div class="menu-items">
+        <div class="mi"><div class="mi-left"><div class="mi-name">Tortilla Trufada</div></div><div class="mi-price">9,50 €</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Flamenquín La Reseña</div><div class="mi-desc">Con 4 quesos — especialidad de la casa</div></div><div class="mi-price">13,40 €</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Flamenquín Cordobés</div></div><div class="mi-price">10,90 €</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Hamburgesa de Ternera</div><div class="mi-desc">Con bacon y cebolla caramelizada, salsa casera</div></div><div class="mi-price">12,00 €</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Revuelto de Patatas</div><div class="mi-desc">Con patata, jamón y huevos</div></div><div class="mi-price">12,00 €</div></div>
+        <div class="mi full"><div class="mi-name">Croquetas de Trufa</div><div class="size-pills"><div class="sp"><span class="sp-l">Entera</span><span class="sp-p">11,90 €</span></div><div class="sp"><span class="sp-l">Media</span><span class="sp-p">7,00 €</span></div></div></div>
+        <div class="mi full"><div class="mi-name">Croquetas de Puchero</div><div class="size-pills"><div class="sp"><span class="sp-l">Entera</span><span class="sp-p">11,00 €</span></div><div class="sp"><span class="sp-l">Media</span><span class="sp-p">6,50 €</span></div></div></div>
+        <div class="mi full"><div class="mi-name">Croquetas de Rabo</div><div class="size-pills"><div class="sp"><span class="sp-l">Entera</span><span class="sp-p">12,50 €</span></div><div class="sp"><span class="sp-l">Media</span><span class="sp-p">7,50 €</span></div></div></div>
+        <div class="mi full"><div class="mi-name">Patatas Bravas</div><div class="size-pills"><div class="sp"><span class="sp-l">Entera</span><span class="sp-p">8,90 €</span></div><div class="sp"><span class="sp-l">Media</span><span class="sp-p">5,50 €</span></div><div class="sp"><span class="sp-l">Tapa</span><span class="sp-p">3,50 €</span></div></div></div>
+        <div class="mi full"><div class="mi-name">Berenjenas Crujiente</div><div class="mi-desc">Con miel de caña y queso de cabra</div><div class="size-pills"><div class="sp"><span class="sp-l">Entera</span><span class="sp-p">10,00 €</span></div><div class="sp"><span class="sp-l">Media</span><span class="sp-p">7,00 €</span></div></div></div>
+        <div class="mi full"><div class="mi-name">Pisto con Huevo</div><div class="size-pills"><div class="sp"><span class="sp-l">Entera</span><span class="sp-p">12,50 €</span></div><div class="sp"><span class="sp-l">Media</span><span class="sp-p">6,50 €</span></div></div></div>
+      </div>
+    </section>
+
+    <!-- CARNES -->
+    <section class="menu-sec" id="carnes">
+      <div class="ms-hdr"><h2 class="ms-title">Carnes</h2></div>
+      <div class="menu-items">
+        <div class="mi"><div class="mi-left"><div class="mi-name">Carillada</div><div class="mi-desc">Carillada de cerdo con parmentier de patatas</div></div><div class="mi-price">14,00 €</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Lomo de Vaca</div><div class="mi-desc">Con pimiento verde y patatas</div></div><div class="mi-price">18,00 €</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Pinchitos de Pollo</div><div class="mi-desc">Con pimiento verde y patatas</div></div><div class="mi-price">3,50 €</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Rabo de Toro</div><div class="mi-desc">Con patatas</div></div><div class="mi-price">14,50 €</div></div>
+      </div>
+    </section>
+
+    <!-- PESCADO -->
+    <section class="menu-sec" id="pescado">
+      <div class="ms-hdr"><h2 class="ms-title">Pescado</h2></div>
+      <div class="menu-items">
+        <div class="mi full"><div class="mi-name">Fritura Mixta</div><div class="size-pills"><div class="sp"><span class="sp-l">Entera</span><span class="sp-p">17,50 €</span></div><div class="sp"><span class="sp-l">Media</span><span class="sp-p">11,50 €</span></div></div></div>
+        <div class="mi full"><div class="mi-name">Pez Espada</div><div class="size-pills"><div class="sp"><span class="sp-l">Entera</span><span class="sp-p">13,50 €</span></div><div class="sp"><span class="sp-l">Media</span><span class="sp-p">8,50 €</span></div></div></div>
+        <div class="mi full"><div class="mi-name">Calamares Fritos</div><div class="size-pills"><div class="sp"><span class="sp-l">Entera</span><span class="sp-p">11,00 €</span></div><div class="sp"><span class="sp-l">Media</span><span class="sp-p">6,50 €</span></div></div></div>
+        <div class="mi full"><div class="mi-name">Choco Frito</div><div class="size-pills"><div class="sp"><span class="sp-l">Entera</span><span class="sp-p">13,80 €</span></div><div class="sp"><span class="sp-l">Media</span><span class="sp-p">8,90 €</span></div></div></div>
+        <div class="mi full"><div class="mi-name">Gambas al Pilpil</div><div class="size-pills"><div class="sp"><span class="sp-l">Entera</span><span class="sp-p">13,50 €</span></div><div class="sp"><span class="sp-l">Media</span><span class="sp-p">10,00 €</span></div></div></div>
+        <div class="mi full"><div class="mi-name">Japuta</div><div class="size-pills"><div class="sp"><span class="sp-l">Entera</span><span class="sp-p">10,50 €</span></div><div class="sp"><span class="sp-l">Media</span><span class="sp-p">7,50 €</span></div></div></div>
+      </div>
+    </section>
+
+    <!-- POSTRES -->
+    <section class="menu-sec" id="postres">
+      <div class="ms-hdr"><h2 class="ms-title">Postres</h2></div>
+      <div class="menu-items">
+        <div class="mi"><div class="mi-left"><div class="mi-name">Kunafa</div></div><div class="mi-price">6,50 €</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Tarta de Queso</div></div><div class="mi-price">5,50 €</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Tiramisú</div></div><div class="mi-price">5,50 €</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Coulant de Chocolate</div><div class="mi-desc">Con helado de vainilla</div></div><div class="mi-price">5,50 €</div></div>
+      </div>
+      <div class="menu-hl">
+        <div class="mhl-title">Té Marroquí para 2 Personas</div>
+        <div class="mhl-price">4,00 €</div>
+        <div class="mhl-sub">La experiencia perfecta para compartir</div>
+      </div>
+    </section>
+
+  </div><!-- end menu-main -->
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="fb-logo">La Reseña</div>
+      <div class="fb-sub">de Santo y Seña</div>
+      <p>Cocina andaluza con alma — un lugar donde cada visita se convierte en recuerdo.</p>
+    </div>
+    <div class="footer-col"><h4>Navegación</h4><ul><li><a href="index.html">Inicio</a></li><li><a href="menu.html">Carta</a></li><li><a href="about.html">Nosotros</a></li><li><a href="contact.html">Reservas</a></li></ul></div>
+    <div class="footer-col"><h4>Contacto</h4><p>C/ Doctor Manuel Ruiz Maya, núm 1 local<br>Córdoba<br><br><a href="tel:957073913" style="color:var(--gold)">957 073 913</a></p></div>
+    <div class="footer-col"><h4>Horario</h4><p>Lunes a Domingo<br>13:00 – 16:30<br>20:00 – 23:30<br><br><span style="color:var(--gold);font-style:italic">Martes cerrado</span></p></div>
+  </div>
+  <div class="footer-bottom"><p>© 2025 La Reseña de Santo y Seña · Córdoba</p><a href="admin.html" style="font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.18em;color:var(--dim);text-transform:uppercase">Administración</a></div>
+</footer>
+
+<script>
+const burger=document.getElementById('burger'),navMobile=document.getElementById('navMobile');
+burger.addEventListener('click',()=>navMobile.classList.toggle('open'));
+// Active nav on scroll
+const secs=document.querySelectorAll('.menu-sec');
+const navAs=document.querySelectorAll('.mni a');
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){const id=e.target.id;navAs.forEach(a=>{a.classList.toggle('active',a.getAttribute('href')==='#'+id)})}});
+},{rootMargin:'-40% 0px -55% 0px'});
+secs.forEach(s=>obs.observe(s));
+navAs.forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'})})});
+</script>
+</body>
+</html>

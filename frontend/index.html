@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>La Reseña — Bar Restaurante · Córdoba</title>
+<meta name="description" content="La Reseña de Santo y Seña — Bar restaurante en Córdoba. Cocina andaluza con toques mediterráneos y marroquíes. Reservas: 957 073 913">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <span class="nav-logo-main">La Reseña</span>
+    <span class="nav-logo-sub">de Santo y Seña</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Inicio</a></li>
+    <li><a href="menu.html">Carta</a></li>
+    <li><a href="about.html">Nosotros</a></li>
+    <li><a href="contact.html" class="nav-cta">Reservar</a></li>
+  </ul>
+  <button class="nav-burger" id="burger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav-mobile" id="navMobile">
+  <a href="index.html" onclick="closeMenu()">Inicio</a>
+  <a href="menu.html" onclick="closeMenu()">Carta</a>
+  <a href="about.html" onclick="closeMenu()">Nosotros</a>
+  <a href="contact.html" onclick="closeMenu()">Reservar</a>
+</div>
+
+<main class="page-wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-img" style="background-image:url('interior1.jpg')"></div>
+    <div class="hero-corner hc-tl"></div>
+    <div class="hero-corner hc-tr"></div>
+    <div class="hero-corner hc-bl"></div>
+    <div class="hero-corner hc-br"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow anim-up">Córdoba · Desde el corazón de Andalucía</p>
+      <h1 class="hero-title anim-up-2">La<br>Reseña<em>de Santo y Seña</em></h1>
+      <div class="hero-divider anim-up-3"></div>
+      <p class="hero-tagline anim-up-3">Cocina con alma — donde la tradición andaluza se encuentra con los aromas del Mediterráneo</p>
+      <div class="hero-actions anim-up-4">
+        <a href="contact.html" class="btn btn-gold">Hacer Reserva</a>
+        <a href="menu.html" class="btn btn-outline">Ver la Carta</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>Descubrir</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+  </section>
+
+  <!-- STRIP -->
+  <div class="strip">
+    <div class="strip-item">
+      <span class="si-icon">🍽️</span>
+      <div class="si-title">Cocina de Autor</div>
+      <p class="si-text">Platos con alma cordobesa, toques mediterráneos y especialidades marroquíes de fusión única</p>
+    </div>
+    <div class="strip-item">
+      <span class="si-icon">📍</span>
+      <div class="si-title">En el Centro</div>
+      <p class="si-text">C/ Doctor Manuel Ruiz Maya, núm 1 local — Córdoba. Fácil acceso y aparcamiento cercano</p>
+    </div>
+    <div class="strip-item">
+      <span class="si-icon">📞</span>
+      <div class="si-title">Reservas</div>
+      <p class="si-text">Llámanos al <a href="tel:957073913" style="color:var(--gold)">957 073 913</a> o reserva directamente online. Te esperamos</p>
+    </div>
+  </div>
+
+  <!-- ABOUT TEASER -->
+  <section style="padding-top:0">
+    <div class="sec-header">
+      <p class="sec-eyebrow">Quiénes somos</p>
+      <h2 class="sec-title">Un lugar para vivir la gastronomía</h2>
+      <div class="sec-rule"></div>
+      <p class="sec-sub">Más que un restaurante — una experiencia que combina la calidez del bar de toda la vida con una cocina que sorprende</p>
+    </div>
+    <div class="about-teaser">
+      <div class="at-img-wrap">
+        <img class="at-img" src="bar.jpg" alt="Interior La Reseña — barra">
+        <div class="at-img-badge">Córdoba<br>Andalucía</div>
+      </div>
+      <div class="at-text">
+        <p class="label">Nuestra historia</p>
+        <h2>Sabores que cuentan una historia</h2>
+        <p>En La Reseña creemos que cada plato debe tener algo que decir. Nacimos del amor por la cocina honesta, por los productos de temporada y por esa magia que solo ocurre cuando la tradición y la creatividad se sientan a la misma mesa.</p>
+        <p>Nuestra carta fusiona lo mejor de la cocina andaluza — el salmorejo, los flamenquines, el rabo de toro — con especialidades mediterráneas y marroquíes que añaden una dimensión especial a cada visita.</p>
+        <a href="about.html" class="btn btn-outline" style="margin-top:8px">Conocernos mejor</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY STRIP -->
+  <div class="gallery-strip">
+    <div class="gs-item"><img src="food1.jpg" alt="Pastella moruna"></div>
+    <div class="gs-item"><img src="interior2.jpg" alt="Sala interior"></div>
+    <div class="gs-item"><img src="food2.jpg" alt="Especialidad de la casa"></div>
+    <div class="gs-item"><img src="interior1.jpg" alt="Sala con vistas"></div>
+  </div>
+
+  <!-- SPECIALTIES -->
+  <section>
+    <div class="sec-header">
+      <p class="sec-eyebrow">Especialidades</p>
+      <h2 class="sec-title">Lo que no puedes perderte</h2>
+      <div class="sec-rule"></div>
+      <p class="sec-sub">Una selección de nuestros platos más queridos por los clientes</p>
+    </div>
+    <div class="specs-grid">
+      <div class="spec-card">
+        <div class="sc-num">01</div>
+        <div class="sc-name">Kufta de Ternera</div>
+        <p class="sc-desc">Humus remolacha, humus tradicional, verdura asada y salsa hierba fresca</p>
+        <div class="sc-price">14,00 €</div>
+      </div>
+      <div class="spec-card">
+        <div class="sc-num">02</div>
+        <div class="sc-name">Pastella Moruna</div>
+        <p class="sc-desc">Hojaldre de masa fina relleno de pollo y almendras. Un clásico que enamora</p>
+        <div class="sc-price">14,00 €</div>
+      </div>
+      <div class="spec-card">
+        <div class="sc-num">03</div>
+        <div class="sc-name">Flamenquín La Reseña</div>
+        <p class="sc-desc">Nuestra versión con cuatro quesos — especialidad exclusiva de la casa</p>
+        <div class="sc-price">13,40 €</div>
+      </div>
+      <div class="spec-card">
+        <div class="sc-num">04</div>
+        <div class="sc-name">Tajine de Pollo</div>
+        <p class="sc-desc">Elaborado al estilo tradicional marroquí con patatas fritas y pan de la casa</p>
+        <div class="sc-price">14,00 €</div>
+      </div>
+      <div class="spec-card">
+        <div class="sc-num">05</div>
+        <div class="sc-name">Rabo de Toro</div>
+        <p class="sc-desc">El clásico cordobés en toda su gloria, acompañado de patatas</p>
+        <div class="sc-price">14,50 €</div>
+      </div>
+      <div class="spec-card">
+        <div class="sc-num">06</div>
+        <div class="sc-name">Couscous de Ternera</div>
+        <p class="sc-desc">Con sémola, verdura y cebolla caramelizada. Reserva con un día de antelación</p>
+        <div class="sc-price">16,50 €</div>
+      </div>
+    </div>
+    <div style="text-align:center;padding-bottom:100px">
+      <a href="menu.html" class="btn btn-outline">Ver carta completa</a>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section style="background:var(--panel);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:80px 24px;text-align:center">
+    <p style="font-family:'Cinzel',serif;font-size:.56rem;letter-spacing:.5em;color:var(--gold);opacity:.7;text-transform:uppercase;margin-bottom:14px">¿Tienes un evento especial?</p>
+    <h2 style="font-family:'Cinzel',serif;font-size:clamp(1.5rem,4vw,2.4rem);color:var(--text);margin-bottom:16px">Celebra con nosotros</h2>
+    <div style="width:52px;height:1px;background:var(--gold);margin:0 auto 18px;opacity:.5"></div>
+    <p style="font-size:1rem;font-style:italic;color:var(--muted);max-width:480px;margin:0 auto 36px">Cumpleaños, cenas de empresa, celebraciones familiares — hacemos que cada ocasión sea memorable</p>
+    <a href="contact.html" class="btn btn-gold">Consultar disponibilidad</a>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="fb-logo">La Reseña</div>
+      <div class="fb-sub">de Santo y Seña</div>
+      <p>Cocina andaluza con alma — un lugar donde cada visita se convierte en recuerdo.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navegación</h4>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="menu.html">Carta</a></li>
+        <li><a href="about.html">Nosotros</a></li>
+        <li><a href="contact.html">Reservas</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contacto</h4>
+      <p>C/ Doctor Manuel Ruiz Maya, núm 1 local<br>Córdoba<br><br><a href="tel:957073913" style="color:var(--gold)">957 073 913</a></p>
+    </div>
+    <div class="footer-col">
+      <h4>Horario</h4>
+      <p>Lunes a Domingo<br>13:00 – 16:30<br>20:00 – 23:30<br><br><span style="color:var(--gold);font-style:italic">Martes cerrado</span></p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 La Reseña de Santo y Seña · Córdoba</p>
+    <a href="admin.html" style="font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.18em;color:var(--dim);text-transform:uppercase;transition:color .3s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--dim)'">Administración</a>
+  </div>
+</footer>
+
+<script>
+const burger = document.getElementById('burger');
+const navMobile = document.getElementById('navMobile');
+function closeMenu(){ navMobile.classList.remove('open'); }
+burger.addEventListener('click', () => navMobile.classList.toggle('open'));
+</script>
+</body>
+</html>

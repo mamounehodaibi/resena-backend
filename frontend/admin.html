@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin — La Reseña</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div class="admin-login-wrap" id="loginScreen">
+  <div class="alw-box">
+    <span class="alw-icon">🔐</span>
+    <div class="alw-title">Panel de Administración</div>
+    <p class="alw-sub">La Reseña · Gestión de Reservas</p>
+    <div class="fg">
+      <label>Contraseña</label>
+      <input type="password" id="pwInput" placeholder="Introduce la contraseña" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <div style="margin-top:4px">
+      <button class="btn btn-gold" onclick="doLogin()" style="width:100%;justify-content:center">Entrar</button>
+    </div>
+    <p class="alw-err" id="loginErr"></p>
+    <p style="margin-top:24px;font-size:.76rem;font-style:italic;color:var(--dim);text-align:center">Contraseña por defecto: <strong style="color:var(--gold)">resena2025</strong><br>Cámbiala en el código antes de publicar</p>
+  </div>
+</div>
+
+<!-- ADMIN DASHBOARD -->
+<div id="adminDash" style="display:none">
+
+  <div class="admin-header">
+    <div class="ah-left">
+      <span class="ah-logo">La Reseña</span>
+      <span class="ah-badge">Panel Admin</span>
+    </div>
+    <div style="display:flex;gap:12px;align-items:center">
+      <a href="index.html" class="btn btn-outline btn-sm">← Ver web</a>
+      <button class="btn btn-sm" onclick="doLogout()" style="background:rgba(201,76,76,.15);border:1px solid rgba(201,76,76,.3);color:var(--danger);font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;cursor:pointer">Salir</button>
+    </div>
+  </div>
+
+  <div class="admin-body">
+
+    <!-- STATS -->
+    <div class="dash-stats">
+      <div class="stat-card">
+        <div class="stat-label">Total Reservas</div>
+        <div class="stat-value" id="statTotal">0</div>
+        <div class="stat-sub">Acumuladas</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Pendientes</div>
+        <div class="stat-value" id="statPending" style="color:var(--gold)">0</div>
+        <div class="stat-sub">Sin confirmar</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Confirmadas</div>
+        <div class="stat-value" id="statConfirmed" style="color:var(--success)">0</div>
+        <div class="stat-sub">Listas</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Hoy</div>
+        <div class="stat-value" id="statToday">0</div>
+        <div class="stat-sub">Reservas para hoy</div>
+      </div>
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="dash-controls">
+      <input type="search" class="search-input" id="searchInput" placeholder="Buscar por nombre o teléfono..." oninput="renderTable()">
+      <select class="filter-select" id="filterEstado" onchange="renderTable()">
+        <option value="">Todos los estados</option>
+        <option value="pendiente">Pendientes</option>
+        <option value="confirmada">Confirmadas</option>
+        <option value="cancelada">Canceladas</option>
+      </select>
+      <select class="filter-select" id="filterDate" onchange="renderTable()">
+        <option value="">Todas las fechas</option>
+        <option value="hoy">Hoy</option>
+        <option value="semana">Esta semana</option>
+        <option value="mes">Este mes</option>
+      </select>
+      <button class="btn btn-outline btn-sm" onclick="exportCSV()">↓ Exportar CSV</button>
+      <button class="btn btn-sm" onclick="clearAll()" style="background:rgba(201,76,76,.1);border:1px solid rgba(201,76,76,.25);color:var(--danger);font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.15em;cursor:pointer">Borrar todo</button>
+    </div>
+
+    <!-- TABLE -->
+    <div class="res-table-wrap">
+      <table class="res-table">
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>Teléfono</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Personas</th>
+            <th>Ocasión</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+      <div class="empty-state" id="emptyState" style="display:none">
+        <span class="es-icon">📋</span>
+        <p>No hay reservas que mostrar</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal">
+    <div class="modal-title">Detalle de Reserva</div>
+    <dl class="modal-body" id="modalBody"></dl>
+    <div class="modal-actions" id="modalActions"></div>
+  </div>
+</div>
+
+<script>
+const PASS = 'resena2025';
+const KEY  = 'resena_reservations';
+
+/* ── AUTH ── */
+function doLogin(){
+  const val = document.getElementById('pwInput').value;
+  if(val === PASS){
+    sessionStorage.setItem('admin_auth','1');
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('adminDash').style.display='block';
+    loadDashboard();
+  } else {
+    document.getElementById('loginErr').textContent = 'Contraseña incorrecta. Inténtalo de nuevo.';
+  }
+}
+function doLogout(){
+  sessionStorage.removeItem('admin_auth');
+  location.reload();
+}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  if(sessionStorage.getItem('admin_auth')==='1'){
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('adminDash').style.display='block';
+    loadDashboard();
+  }
+  // Add demo data if empty
+  if(!localStorage.getItem(KEY)){
+    const demo = [
+      {id:1700000001,nombre:'María García',telefono:'654 321 098',fecha:'2025-11-15',hora:'14:00',personas:'2 personas',ocasion:'Aniversario',notas:'Nos gustaría una mesa junto a la ventana',estado:'confirmada',createdAt:'2025-11-10T10:30:00Z'},
+      {id:1700000002,nombre:'Carlos Rodríguez',telefono:'666 111 222',fecha:'2025-11-15',hora:'21:00',personas:'4 personas',ocasion:'Cumpleaños',notas:'',estado:'pendiente',createdAt:'2025-11-11T18:00:00Z'},
+      {id:1700000003,nombre:'Ana Martínez',telefono:'699 000 333',fecha:'2025-11-16',hora:'13:30',personas:'3 personas',ocasion:'',notas:'Una persona alérgica a los frutos secos',estado:'pendiente',createdAt:'2025-11-12T09:15:00Z'},
+      {id:1700000004,nombre:'Pedro Sánchez',telefono:'612 555 444',fecha:'2025-11-18',hora:'20:30',personas:'6 personas',ocasion:'Cena de empresa',notas:'Menú degustación si es posible',estado:'confirmada',createdAt:'2025-11-12T15:20:00Z'},
+      {id:1700000005,nombre:'Laura Fernández',telefono:'677 888 999',fecha:'2025-11-20',hora:'14:30',personas:'2 personas',ocasion:'Primera visita',notas:'',estado:'cancelada',createdAt:'2025-11-13T11:00:00Z'},
+    ];
+    localStorage.setItem(KEY, JSON.stringify(demo));
+  }
+});
+
+/* ── DATA ── */
+function getRes(){ return JSON.parse(localStorage.getItem(KEY)||'[]'); }
+function saveRes(arr){ localStorage.setItem(KEY, JSON.stringify(arr)); }
+
+function loadDashboard(){
+  renderStats();
+  renderTable();
+}
+
+function renderStats(){
+  const res = getRes();
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('statTotal').textContent = res.length;
+  document.getElementById('statPending').textContent = res.filter(r=>r.estado==='pendiente').length;
+  document.getElementById('statConfirmed').textContent = res.filter(r=>r.estado==='confirmada').length;
+  document.getElementById('statToday').textContent = res.filter(r=>r.fecha===today).length;
+}
+
+function renderTable(){
+  const res = getRes();
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const estado = document.getElementById('filterEstado').value;
+  const dateF   = document.getElementById('filterDate').value;
+  const today   = new Date().toISOString().split('T')[0];
+
+  let filtered = res.filter(r=>{
+    if(search && !r.nombre.toLowerCase().includes(search) && !r.telefono.toLowerCase().includes(search)) return false;
+    if(estado && r.estado !== estado) return false;
+    if(dateF==='hoy' && r.fecha !== today) return false;
+    if(dateF==='semana'){
+      const d=new Date(r.fecha), now=new Date();
+      const start=new Date(now); start.setDate(now.getDate()-now.getDay());
+      const end=new Date(start); end.setDate(start.getDate()+6);
+      if(d<start||d>end) return false;
+    }
+    if(dateF==='mes'){
+      const d=new Date(r.fecha),now=new Date();
+      if(d.getMonth()!==now.getMonth()||d.getFullYear()!==now.getFullYear()) return false;
+    }
+    return true;
+  });
+
+  // Sort: newest first
+  filtered.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
+
+  const tbody = document.getElementById('tableBody');
+  const empty = document.getElementById('emptyState');
+
+  if(filtered.length===0){
+    tbody.innerHTML='';
+    empty.style.display='block';
+    return;
+  }
+  empty.style.display='none';
+
+  tbody.innerHTML = filtered.map(r=>`
+    <tr>
+      <td class="td-name">${esc(r.nombre)}</td>
+      <td class="td-date"><a href="tel:${esc(r.telefono)}" style="color:var(--gold)">${esc(r.telefono)}</a></td>
+      <td class="td-date">${formatDate(r.fecha)}</td>
+      <td>${esc(r.hora)}</td>
+      <td>${esc(r.personas)}</td>
+      <td style="color:var(--muted);font-style:italic">${r.ocasion||'—'}</td>
+      <td><span class="badge badge-${r.estado}">${estadoLabel(r.estado)}</span></td>
+      <td>
+        <div class="td-actions">
+          <button class="btn btn-sm" onclick="openDetail(${r.id})" style="background:var(--gold-dim);border:1px solid var(--border);color:var(--gold);font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.15em;cursor:pointer;padding:7px 14px;border-radius:2px">Ver</button>
+          ${r.estado==='pendiente'?`<button class="btn btn-sm btn-success" onclick="changeStatus(${r.id},'confirmada')" style="font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.13em;cursor:pointer;padding:7px 12px;border-radius:2px">✓ Confirmar</button>`:''}
+          ${r.estado!=='cancelada'?`<button class="btn btn-sm" onclick="changeStatus(${r.id},'cancelada')" style="background:rgba(201,76,76,.1);border:1px solid rgba(201,76,76,.25);color:var(--danger);font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.13em;cursor:pointer;padding:7px 12px;border-radius:2px">✕ Cancelar</button>`:''}
+          <button class="btn btn-sm" onclick="deleteRes(${r.id})" style="background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--dim);font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.13em;cursor:pointer;padding:7px 12px;border-radius:2px">🗑</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function changeStatus(id, newEstado){
+  const res = getRes();
+  const idx = res.findIndex(r=>r.id===id);
+  if(idx>=0){ res[idx].estado = newEstado; saveRes(res); }
+  renderStats(); renderTable();
+  closeModal();
+}
+
+function deleteRes(id){
+  if(!confirm('¿Eliminar esta reserva?')) return;
+  saveRes(getRes().filter(r=>r.id!==id));
+  renderStats(); renderTable();
+  closeModal();
+}
+
+function openDetail(id){
+  const r = getRes().find(r=>r.id===id);
+  if(!r) return;
+  document.getElementById('modalBody').innerHTML = `
+    <dt>Cliente</dt><dd>${esc(r.nombre)}</dd>
+    <dt>Teléfono</dt><dd><a href="tel:${esc(r.telefono)}" style="color:var(--gold)">${esc(r.telefono)}</a></dd>
+    <dt>Fecha</dt><dd>${formatDate(r.fecha)}</dd>
+    <dt>Hora</dt><dd>${esc(r.hora)}</dd>
+    <dt>Personas</dt><dd>${esc(r.personas)}</dd>
+    <dt>Ocasión</dt><dd>${r.ocasion||'—'}</dd>
+    <dt>Notas</dt><dd>${r.notas||'Sin notas'}</dd>
+    <dt>Estado</dt><dd><span class="badge badge-${r.estado}">${estadoLabel(r.estado)}</span></dd>
+    <dt>Recibida</dt><dd>${new Date(r.createdAt).toLocaleString('es-ES')}</dd>
+  `;
+  document.getElementById('modalActions').innerHTML = `
+    ${r.estado==='pendiente'?`<button class="btn btn-success" onclick="changeStatus(${r.id},'confirmada')">✓ Confirmar</button>`:''}
+    ${r.estado!=='cancelada'?`<button class="btn btn-danger" onclick="changeStatus(${r.id},'cancelada')">✕ Cancelar</button>`:''}
+    <button class="btn btn-outline" onclick="closeModal()">Cerrar</button>
+  `;
+  document.getElementById('detailModal').classList.add('open');
+}
+
+function closeModal(){ document.getElementById('detailModal').classList.remove('open'); }
+document.getElementById('detailModal').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeModal(); });
+
+function clearAll(){
+  if(!confirm('¿Eliminar TODAS las reservas? Esta acción no se puede deshacer.')) return;
+  localStorage.removeItem(KEY);
+  renderStats(); renderTable();
+}
+
+function exportCSV(){
+  const res = getRes();
+  if(!res.length){ alert('No hay reservas para exportar.'); return; }
+  const headers = ['Nombre','Teléfono','Fecha','Hora','Personas','Ocasión','Notas','Estado','Recibida'];
+  const rows = res.map(r=>[r.nombre,r.telefono,r.fecha,r.hora,r.personas,r.ocasion||'',r.notas||'',estadoLabel(r.estado),new Date(r.createdAt).toLocaleString('es-ES')].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(','));
+  const csv = [headers.join(','),...rows].join('\n');
+  const blob = new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `reservas-la-resena-${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
+}
+
+/* ── HELPERS ── */
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function estadoLabel(e){ return {pendiente:'Pendiente',confirmada:'Confirmada',cancelada:'Cancelada'}[e]||e; }
+function formatDate(d){
+  if(!d) return '—';
+  const [y,m,day]=d.split('-');
+  const months=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  return `${parseInt(day)} ${months[parseInt(m)-1]} ${y}`;
+}
+</script>
+</body>
+</html>

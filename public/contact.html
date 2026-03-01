@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reservas — La Reseña Bar Restaurante · Córdoba</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <span class="nav-logo-main">La Reseña</span>
+    <span class="nav-logo-sub">de Santo y Seña</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="menu.html">Carta</a></li>
+    <li><a href="about.html">Nosotros</a></li>
+    <li><a href="contact.html" class="active nav-cta">Reservar</a></li>
+  </ul>
+  <button class="nav-burger" id="burger"><span></span><span></span><span></span></button>
+</nav>
+<div class="nav-mobile" id="navMobile">
+  <a href="index.html">Inicio</a><a href="menu.html">Carta</a><a href="about.html">Nosotros</a><a href="contact.html">Reservar</a>
+</div>
+
+<main class="page-wrap">
+  <div class="sec-header">
+    <p class="sec-eyebrow">Reservas & Contacto</p>
+    <h1 class="sec-title">Reserva tu Mesa</h1>
+    <div class="sec-rule"></div>
+    <p class="sec-sub">Rellena el formulario o llámanos directamente. Confirmamos tu reserva en menos de 24 horas</p>
+  </div>
+
+  <div class="contact-wrap">
+
+    <!-- INFO -->
+    <div class="ci">
+      <h2>Información</h2>
+
+      <div class="ib">
+        <div class="ib-label">Dirección</div>
+        <div class="ib-val">C/ Doctor Manuel Ruiz Maya, núm 1 local<br>Córdoba, España</div>
+      </div>
+
+      <div class="ib">
+        <div class="ib-label">Teléfono</div>
+        <div class="ib-val"><a href="tel:957073913">957 073 913</a></div>
+      </div>
+
+      <div class="ib">
+        <div class="ib-label">Horario</div>
+        <div class="hours-tbl">
+          <span class="ht-day">Lunes</span><span class="ht-time">13:00–16:30 · 20:00–23:30</span>
+          <span class="ht-day">Martes</span><span class="ht-time" style="color:var(--danger)">Cerrado</span>
+          <span class="ht-day">Miércoles</span><span class="ht-time">13:00–16:30 · 20:00–23:30</span>
+          <span class="ht-day">Jueves</span><span class="ht-time">13:00–16:30 · 20:00–23:30</span>
+          <span class="ht-day">Viernes</span><span class="ht-time">13:00–16:30 · 20:00–23:30</span>
+          <span class="ht-day">Sábado</span><span class="ht-time">13:00–16:30 · 20:00–23:30</span>
+          <span class="ht-day">Domingo</span><span class="ht-time">13:00–16:30 · 20:00–23:30</span>
+        </div>
+      </div>
+
+      <div class="ib">
+        <div class="ib-label">Notas</div>
+        <div class="ib-val" style="font-size:.88rem">Para el couscous y platos especiales, por favor reserva con <strong style="color:var(--gold)">un día de antelación</strong> como mínimo (2 personas mínimo).</div>
+      </div>
+
+      <!-- Map embed placeholder -->
+      <div style="margin-top:28px;background:var(--panel);border:1px solid var(--border);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px">
+        <span style="font-size:2rem">📍</span>
+        <p style="font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.2em;color:var(--muted);text-transform:uppercase">C/ Doctor Manuel Ruiz Maya 1<br>Córdoba</p>
+        <a href="https://maps.google.com/?q=C+Doctor+Manuel+Ruiz+Maya+1+Cordoba" target="_blank" class="btn btn-outline btn-sm">Ver en Google Maps</a>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="res-form-wrap">
+      <div class="rfw-title">Solicitar Reserva</div>
+      <p class="rfw-sub">Completa el formulario y te confirmaremos la disponibilidad</p>
+
+      <div id="resForm">
+        <div class="form-grid">
+          <div class="fg">
+            <label for="nombre">Nombre *</label>
+            <input type="text" id="nombre" placeholder="Tu nombre completo" required>
+          </div>
+          <div class="fg">
+            <label for="telefono">Teléfono *</label>
+            <input type="tel" id="telefono" placeholder="600 000 000" required>
+          </div>
+          <div class="fg">
+            <label for="fecha">Fecha *</label>
+            <input type="date" id="fecha" required>
+          </div>
+          <div class="fg">
+            <label for="hora">Hora *</label>
+            <select id="hora" required>
+              <option value="" disabled selected>Seleccionar hora</option>
+              <optgroup label="Comida">
+                <option>13:00</option><option>13:30</option><option>14:00</option>
+                <option>14:30</option><option>15:00</option><option>15:30</option><option>16:00</option>
+              </optgroup>
+              <optgroup label="Cena">
+                <option>20:00</option><option>20:30</option><option>21:00</option>
+                <option>21:30</option><option>22:00</option><option>22:30</option><option>23:00</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="fg">
+            <label for="personas">Nº de personas *</label>
+            <select id="personas" required>
+              <option value="" disabled selected>Seleccionar</option>
+              <option>1 persona</option><option>2 personas</option><option>3 personas</option>
+              <option>4 personas</option><option>5 personas</option><option>6 personas</option>
+              <option>7 personas</option><option>8 personas</option><option>Más de 8</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label for="ocasion">Ocasión</label>
+            <select id="ocasion">
+              <option value="" selected>Sin especificar</option>
+              <option>Cumpleaños</option><option>Aniversario</option><option>Cena de empresa</option>
+              <option>Reunión familiar</option><option>Primera visita</option><option>Otra celebración</option>
+            </select>
+          </div>
+          <div class="fg form-full">
+            <label for="notas">Notas adicionales</label>
+            <textarea id="notas" placeholder="Alergias, peticiones especiales, platos con reserva previa..."></textarea>
+          </div>
+        </div>
+        <div class="form-submit">
+          <button class="btn btn-gold" onclick="submitReservation()" style="width:100%;justify-content:center">Solicitar Reserva</button>
+        </div>
+        <p style="font-size:.76rem;font-style:italic;color:var(--dim);text-align:center;margin-top:14px">Tu reserva quedará pendiente de confirmación. Te llamaremos al teléfono indicado.</p>
+      </div>
+
+      <div class="form-msg success" id="successMsg">
+        <h3>¡Reserva Recibida!</h3>
+        <p>Hemos recibido tu solicitud. Te llamaremos al <strong id="confirmPhone"></strong> para confirmar tu reserva. ¡Hasta pronto!</p>
+      </div>
+      <div class="form-msg error" id="errorMsg">
+        <h3>Faltan datos</h3>
+        <p>Por favor completa todos los campos obligatorios (*) antes de enviar.</p>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand"><div class="fb-logo">La Reseña</div><div class="fb-sub">de Santo y Seña</div><p>Cocina andaluza con alma.</p></div>
+    <div class="footer-col"><h4>Navegación</h4><ul><li><a href="index.html">Inicio</a></li><li><a href="menu.html">Carta</a></li><li><a href="about.html">Nosotros</a></li><li><a href="contact.html">Reservas</a></li></ul></div>
+    <div class="footer-col"><h4>Contacto</h4><p>C/ Doctor Manuel Ruiz Maya, núm 1 local<br>Córdoba<br><br><a href="tel:957073913" style="color:var(--gold)">957 073 913</a></p></div>
+    <div class="footer-col"><h4>Horario</h4><p>Lunes a Domingo<br>13:00 – 16:30 · 20:00 – 23:30<br><br><span style="color:var(--gold);font-style:italic">Martes cerrado</span></p></div>
+  </div>
+  <div class="footer-bottom"><p>© 2025 La Reseña de Santo y Seña · Córdoba</p><a href="admin.html" style="font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.18em;color:var(--dim);text-transform:uppercase">Administración</a></div>
+</footer>
+
+<script>
+const burger=document.getElementById('burger'),navMobile=document.getElementById('navMobile');
+burger.addEventListener('click',()=>navMobile.classList.toggle('open'));
+
+document.getElementById('fecha').min = new Date().toISOString().split('T')[0];
+
+async function submitReservation(){
+  const nombre   = document.getElementById('nombre').value.trim();
+  const telefono = document.getElementById('telefono').value.trim();
+  const fecha    = document.getElementById('fecha').value;
+  const hora     = document.getElementById('hora').value;
+  const personas = document.getElementById('personas').value;
+  const ocasion  = document.getElementById('ocasion').value;
+  const notas    = document.getElementById('notas').value;
+
+  document.getElementById('errorMsg').style.display='none';
+  document.getElementById('successMsg').style.display='none';
+
+  if(!nombre||!telefono||!fecha||!hora||!personas){
+    document.getElementById('errorMsg').style.display='block';
+    document.getElementById('errorMsg').scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+
+  const btn = document.querySelector('.btn-gold');
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+
+  try {
+    const res = await fetch('/api/reservations', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nombre, telefono, fecha, hora, personas, ocasion, notas })
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || 'Error al enviar');
+    }
+
+    document.getElementById('confirmPhone').textContent = telefono;
+    document.getElementById('resForm').style.display='none';
+    document.getElementById('successMsg').style.display='block';
+    document.getElementById('successMsg').scrollIntoView({behavior:'smooth',block:'center'});
+  } catch(e) {
+    document.getElementById('errorMsg').querySelector('p').textContent = e.message;
+    document.getElementById('errorMsg').style.display='block';
+    btn.disabled = false;
+    btn.textContent = 'Solicitar Reserva';
+  }
+}
+</script>
+</body>
+</html>
