@@ -324,3 +324,5 @@ footer{background:var(--panel);border-top:1px solid var(--border);padding:64px 4
   .menu-main{padding:0 16px 80px}
   .res-form-wrap{padding:32px 24px}
 }
+
+.footer-social{display:flex;justify-content:center;gap:24px;padding:24px 0;border-top:1px solid var(--border)}.social-link{display:flex;align-items:center;gap:8px;color:var(--dim);font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:color .3s}.social-link:hover{color:var(--gold)}
