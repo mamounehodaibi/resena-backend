@@ -87,6 +87,10 @@
             <input type="text" id="nombre" placeholder="Tu nombre completo" required>
           </div>
           <div class="fg">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="tu@email.com">
+          </div>
+          <div class="fg">
             <label for="telefono">Teléfono *</label>
             <input type="tel" id="telefono" placeholder="600 000 000" required>
           </div>
@@ -156,7 +160,7 @@
     <div class="footer-col"><h4>Contacto</h4><p>C/ Doctor Manuel Ruiz Maya, núm 1 local<br>Córdoba<br><br><a href="tel:957073913" style="color:var(--gold)">957 073 913</a></p></div>
     <div class="footer-col"><h4>Horario</h4><p>Lunes a Domingo<br>13:00 – 16:30 · 20:00 – 23:30<br><br><span style="color:var(--gold);font-style:italic">Martes cerrado</span></p></div>
   </div>
-  <div class="footer-bottom"><p>© 2025 La Reseña de Santo y Seña · Córdoba</p><a href="admin.html" style="font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.18em;color:var(--dim);text-transform:uppercase">Administración</a></div>
+  <div class="footer-bottom"><p>© 2025 La Reseña de Santo y Seña · Córdoba</p></div>
 </footer>
 
 <script>
@@ -173,6 +177,7 @@ async function submitReservation(){
   const personas = document.getElementById('personas').value;
   const ocasion  = document.getElementById('ocasion').value;
   const notas    = document.getElementById('notas').value;
+  const email    = document.getElementById('email').value.trim();
 
   document.getElementById('errorMsg').style.display='none';
   document.getElementById('successMsg').style.display='none';
@@ -191,7 +196,7 @@ async function submitReservation(){
     const res = await fetch('/api/reservations', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nombre, telefono, fecha, hora, personas, ocasion, notas })
+      body: JSON.stringify({ nombre, telefono, email, fecha, hora, personas, ocasion, notas })
     });
 
     if (!res.ok) {
@@ -213,4 +218,6 @@ async function submitReservation(){
 </script>
 </body>
 </html>
+
+
 
